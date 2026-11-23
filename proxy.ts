@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const PUBLICAS = ["/login", "/setup", "/api/auth/login", "/api/auth/setup"];
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (PUBLICAS.some((p) => pathname === p || pathname.startsWith(p + "/"))) return NextResponse.next();
   if (!req.cookies.get("ap_sessao")) {
