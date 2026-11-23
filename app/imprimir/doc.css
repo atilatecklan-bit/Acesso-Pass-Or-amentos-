@@ -1,0 +1,70 @@
+@page { size: A4; margin: 14mm 13mm 16mm; }
+
+body.imprimir { background: #e9e9ef; }
+.barra-impressao {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap;
+  padding: 10px; background: #14141c; color: #fff; font-size: 13px;
+}
+.barra-impressao .dica { color: #a8a8b6; font-size: 12px; }
+
+.doc {
+  --l: #f56501;
+  width: 210mm; margin: 18px auto; background: #fff; color: #12121a;
+  padding: 14mm 13mm; box-shadow: 0 6px 30px rgba(0,0,0,.08);
+  font-size: 10pt; line-height: 1.5;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.doc .cab { display: flex; justify-content: space-between; align-items: flex-start; }
+.doc .cab img { height: 30pt; width: auto; }
+.doc .cab .meta { text-align: right; font-size: 8.6pt; color: #202023; }
+.doc .cab .meta strong { color: #12121a; }
+.doc h1 { font-size: 20pt; font-weight: 700; margin: 26pt 0 6pt; line-height: 1.15; }
+.doc .para { font-size: 10pt; margin: 0 0 16pt; }
+.doc .tracejado { border: 0; border-top: 1px dashed #d6d6df; margin: 0 0 16pt; }
+.doc .rot {
+  color: var(--l); font-weight: 600; font-size: 8.25pt; letter-spacing: .28em; text-transform: uppercase;
+  margin: 20pt 0 8pt;
+}
+.doc .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 18pt; }
+.doc .duas .rot { margin-top: 0; }
+.doc ul.bolas { margin: 0; padding-left: 14pt; }
+.doc ul.bolas li { margin: 0 0 4pt; }
+.doc ul.bolas li::marker { color: #12121a; }
+
+.doc table { width: 100%; border-collapse: collapse; }
+.doc th {
+  font-size: 7.9pt; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #202023;
+  text-align: left; padding: 0 0 6pt; border-bottom: 1px solid #e4e4ea;
+}
+.doc td { padding: 8pt 0; border-bottom: 1px solid #f0f0f4; vertical-align: top; }
+.doc .r { text-align: right; }
+.doc .c { text-align: center; }
+.doc td .det { display: block; font-size: 8.6pt; color: #4a4a55; margin-top: 1pt; }
+.doc table.taxas td .det { font-size: 10pt; color: #12121a; }
+.doc .nota { font-size: 8.6pt; color: #202023; margin: 8pt 0 0; }
+
+.doc .total {
+  display: flex; justify-content: space-between; font-weight: 700; font-size: 11.6pt;
+  border-top: 1.6px solid #12121a; padding: 9pt 0 0; margin-top: 0;
+}
+.doc .invest {
+  margin-top: 22pt; border-radius: 10pt; background: #14141c; color: #fff;
+  padding: 16pt 18pt; display: flex; justify-content: space-between; align-items: center; gap: 16pt;
+  break-inside: avoid;
+}
+.doc .invest .k { font-size: 7.9pt; letter-spacing: .2em; text-transform: uppercase; color: #ffb47e; }
+.doc .invest .v { font-size: 20pt; font-weight: 700; line-height: 1.2; }
+.doc .invest .lado { text-align: right; font-size: 8.6pt; color: #d6d6e0; line-height: 1.6; }
+
+.doc .bloco { break-inside: avoid; }
+.doc .assinatura { margin: 46pt 0 0 auto; width: 48%; text-align: center; font-size: 9pt; break-inside: avoid; }
+.doc .assinatura .traco { border-top: 1px solid #12121a; padding-top: 6pt; font-weight: 600; }
+.doc .rodape { margin-top: 28pt; padding-top: 8pt; border-top: 1px solid #ececf2; display: flex; justify-content: space-between; font-size: 7.9pt; color: #6b6b78; letter-spacing: .04em; }
+.doc .quebra { break-before: page; }
+
+@media print {
+  body.imprimir { background: #fff; }
+  .barra-impressao { display: none; }
+  .doc { width: auto; margin: 0; padding: 0; box-shadow: none; }
+}
