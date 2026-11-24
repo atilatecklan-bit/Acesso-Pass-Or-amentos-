@@ -13,7 +13,7 @@ export default function AcoesLinha({ id }: { id: number }) {
   }
   return (
     <div className="acoes" style={{ justifyContent: "flex-end", flexWrap: "nowrap" }}>
-      <a className="btn pequeno" href={`/imprimir/${id}`} target="_blank">PDF</a>
+      <a className="btn pequeno" href={`/imprimir/${id}`}>Enviar / PDF</a>
       <button className="btn pequeno" onClick={duplicar} disabled={ocupado}>Duplicar</button>
     </div>
   );

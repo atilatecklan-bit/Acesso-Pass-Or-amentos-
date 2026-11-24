@@ -50,21 +50,21 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
             <table className="lista">
               <thead>
                 <tr>
-                  <th>Nº</th>
+                  <th className="ocultar-m">Nº</th>
                   <th>Cliente / evento</th>
                   <th>Status</th>
                   <th className="num">Total</th>
                   <th className="ocultar-m">Atualizado</th>
-                  <th></th>
+                  <th className="ocultar-m"></th>
                 </tr>
               </thead>
               <tbody>
                 {lista.map((p) => (
                   <tr key={p.id}>
-                    <td className="mudo" style={{ whiteSpace: "nowrap" }}>{p.numero}</td>
+                    <td className="mudo ocultar-m" style={{ whiteSpace: "nowrap" }}>{p.numero}</td>
                     <td>
                       <Link className="link" href={`/propostas/${p.id}`}>{p.cliente || "(sem cliente)"}</Link>
-                      <div className="mudo">{p.evento || "—"}</div>
+                      <div className="mudo">{p.evento || "—"}<span className="so-m">Nº {p.numero}</span></div>
                     </td>
                     <td><span className={`selo ${p.status}`}>{rot(p.status)}</span></td>
                     <td className="num"><strong>{brl(p.total)}</strong></td>
@@ -72,7 +72,7 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
                       {dataHoraBR(p.atualizado_em)}
                       <div>{p.editor ?? ""} · v{p.versao}</div>
                     </td>
-                    <td><AcoesLinha id={p.id} /></td>
+                    <td className="ocultar-m"><AcoesLinha id={p.id} /></td>
                   </tr>
                 ))}
               </tbody>

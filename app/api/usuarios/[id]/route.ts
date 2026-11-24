@@ -9,6 +9,10 @@ export async function PATCH(req: Request, c: { params: Promise<{ id: string }> }
   const alvo = await q1<{ id: number }>(`SELECT id FROM usuarios WHERE id = $1`, [id]);
   if (!alvo) return erro("Usuário não encontrado.", 404);
   const b = await corpo(req);
+  if (b.aprovar) {
+    await q(`UPDATE usuarios SET pendente = FALSE, ativo = TRUE, papel = $1 WHERE id = $2`, [b.papel === "admin" ? "admin" : "usuario", id]);
+    return ok();
+  }
   if (b.senha !== undefined) {
     if (String(b.senha).length < 8) return erro("A senha precisa ter pelo menos 8 caracteres.");
     await q(`UPDATE usuarios SET senha_hash = $1 WHERE id = $2`, [await hashSenha(String(b.senha)), id]);
@@ -21,5 +25,13 @@ export async function PATCH(req: Request, c: { params: Promise<{ id: string }> }
     if (id === eu.id) return erro("Você não pode desativar a si mesmo.");
     await q(`UPDATE usuarios SET ativo = $1 WHERE id = $2`, [Boolean(b.ativo), id]);
   }
+  return ok();
+}
+
+export async function DELETE(_req: Request, c: { params: Promise<{ id: string }> }) {
+  if (!(await usuarioApi(true))) return erro("Só administradores podem recusar pedidos.", 403);
+  const id = Number((await c.params).id);
+  // Só apaga pedidos pendentes; usuários da equipe são desativados, não apagados.
+  await q(`DELETE FROM usuarios WHERE id = $1 AND pendente = TRUE`, [id]);
   return ok();
 }

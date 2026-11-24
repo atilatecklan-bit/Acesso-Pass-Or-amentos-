@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { brl, subtotalSecao, totalProposta } from "@/lib/format";
+import EnviarProposta from "./EnviarProposta";
 import { STATUS, type DadosProposta, type Item, type ItemCatalogo, type Periodo, type Secao, type Status } from "@/lib/types";
 
 interface Props {
@@ -103,7 +104,7 @@ export default function Editor(p: Props) {
         return;
       }
       setMsg({ t: "ok", m: `Salvo como versão ${j.versao}.` });
-      if (abrirPdf) window.open(`/imprimir/${p.id}`, "_blank");
+      if (abrirPdf) window.location.href = `/imprimir/${p.id}`;
       else window.location.reload();
     } catch (e: any) {
       setMsg({ t: "erro", m: e.message });
@@ -231,34 +232,28 @@ export default function Editor(p: Props) {
                 <button className="x" title="Remover seção" onClick={() => { if (confirm(`Remover a seção “${s.titulo}”?`)) alterar((x) => { x.secoes.splice(si, 1); }); }}>×</button>
               </div>
               {s.itens.length > 0 && (
-                <div style={{ overflowX: "auto" }}>
-                  <table className="itens">
-                    <thead>
-                      <tr>
-                        <th>Descrição</th>
-                        <th className="n">Qtd</th>
-                        <th className="n">{PERIODOS.find((o) => o.v === s.colunaPeriodo)?.r}</th>
-                        <th className="u">Unitário (R$)</th>
-                        <th className="st">Subtotal</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {s.itens.map((it, ii) => (
-                        <tr key={ii}>
-                          <td>
-                            <input value={it.descricao} onChange={(e) => setItem(si, ii, "descricao", e.target.value)} />
-                            <input value={it.detalhe ?? ""} onChange={(e) => setItem(si, ii, "detalhe", e.target.value)} placeholder="Detalhe (opcional, sai em letra menor)" style={{ marginTop: 4, fontSize: 12 }} />
-                          </td>
-                          <td className="n"><CampoNumero valor={it.qtd} onChange={(n) => setItem(si, ii, "qtd", n)} /></td>
-                          <td className="n"><CampoNumero valor={it.periodo} onChange={(n) => setItem(si, ii, "periodo", n)} /></td>
-                          <td className="u"><CampoNumero valor={it.unitario} onChange={(n) => setItem(si, ii, "unitario", n)} /></td>
-                          <td className="st">{brl(it.qtd * it.periodo * it.unitario)}</td>
-                          <td><button className="x" onClick={() => alterar((x) => { x.secoes[si].itens.splice(ii, 1); })}>×</button></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="itens-grade">
+                  <div className="item-cab">
+                    <span>Descrição</span>
+                    <span>Qtd</span>
+                    <span>{PERIODOS.find((o) => o.v === s.colunaPeriodo)?.r}</span>
+                    <span>Unitário (R$)</span>
+                    <span className="d">Subtotal</span>
+                    <span></span>
+                  </div>
+                  {s.itens.map((it, ii) => (
+                    <div className="item-linha" key={ii}>
+                      <div className="desc">
+                        <input value={it.descricao} onChange={(e) => setItem(si, ii, "descricao", e.target.value)} placeholder="Descrição do item" />
+                        <input value={it.detalhe ?? ""} onChange={(e) => setItem(si, ii, "detalhe", e.target.value)} placeholder="Detalhe (opcional)" className="detalhe" />
+                      </div>
+                      <label><span className="rot-m">Qtd</span><CampoNumero valor={it.qtd} onChange={(n) => setItem(si, ii, "qtd", n)} /></label>
+                      <label><span className="rot-m">{PERIODOS.find((o) => o.v === s.colunaPeriodo)?.r}</span><CampoNumero valor={it.periodo} onChange={(n) => setItem(si, ii, "periodo", n)} /></label>
+                      <label><span className="rot-m">Unitário</span><CampoNumero valor={it.unitario} onChange={(n) => setItem(si, ii, "unitario", n)} /></label>
+                      <div className="st">{brl(it.qtd * it.periodo * it.unitario)}</div>
+                      <button className="x" onClick={() => alterar((x) => { x.secoes[si].itens.splice(ii, 1); })} aria-label="Remover item">×</button>
+                    </div>
+                  ))}
                 </div>
               )}
               <div className="rodape-sec">
@@ -399,8 +394,8 @@ export default function Editor(p: Props) {
               {salvando ? "Salvando…" : p.modoModelo ? "Salvar modelo padrão" : sujo || !p.id ? "Salvar" : "Salvo"}
             </button>
             {!p.modoModelo && (
-              <button className="btn" onClick={() => (sujo || !p.id ? salvar(true) : window.open(`/imprimir/${p.id}`, "_blank"))} disabled={salvando}>
-                {sujo || !p.id ? "Salvar e gerar PDF" : "Gerar PDF"}
+              <button className="btn" onClick={() => (sujo || !p.id ? salvar(true) : (window.location.href = `/imprimir/${p.id}`))} disabled={salvando}>
+                {sujo || !p.id ? "Salvar e enviar / PDF" : "Enviar / PDF"}
               </button>
             )}
             {p.id && (
@@ -414,6 +409,20 @@ export default function Editor(p: Props) {
           {sujo && <p className="ajuda" style={{ marginTop: 10 }}>Há alterações não salvas.</p>}
         </div>
       </div>
+
+      {!p.modoModelo && (
+        <div className="barra-acao-m">
+          <div>
+            <span className="rot">Total</span>
+            <strong>{brl(total)}</strong>
+          </div>
+          {sujo || !p.id ? (
+            <button className="btn primario" onClick={() => salvar(false)} disabled={salvando}>{salvando ? "Salvando…" : "Salvar"}</button>
+          ) : (
+            <EnviarProposta id={p.id} cliente={d.cliente.nome} telefone={d.cliente.telefone} compacto />
+          )}
+        </div>
+      )}
     </div>
   );
 }

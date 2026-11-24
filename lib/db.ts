@@ -70,6 +70,9 @@ const SCHEMA = [
     UNIQUE (proposta_id, versao)
   )`,
   `CREATE INDEX IF NOT EXISTS propostas_atualizado_idx ON propostas (atualizado_em DESC)`,
+  `ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS pendente BOOLEAN NOT NULL DEFAULT FALSE`,
+  `ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS foto TEXT`,
+  `ALTER TABLE propostas ADD COLUMN IF NOT EXISTS token_publico TEXT UNIQUE`,
 ];
 
 async function runner() {

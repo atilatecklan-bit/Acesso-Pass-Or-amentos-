@@ -25,8 +25,16 @@ export default async function Imprimir({
   const titulo = `Proposta ${p.numero} - ${dados.cliente.nome || "sem cliente"}`;
   return (
     <>
-      <BarraImpressao titulo={titulo} voltar={`/propostas/${id}`} versao={v} />
-      <Documento d={dados} numero={p.numero} cfg={cfg} />
+      <BarraImpressao
+        titulo={titulo}
+        voltar={`/propostas/${id}`}
+        versao={v}
+        numero={p.numero}
+        cliente={dados.cliente.nome}
+        telefone={dados.cliente.telefone}
+        id={v ? undefined : id}
+      />
+      <div className="doc-wrap"><Documento d={dados} numero={p.numero} cfg={cfg} /></div>
     </>
   );
 }

@@ -62,7 +62,7 @@ export async function usuarioAtual(): Promise<Usuario | null> {
   if (!token) return null;
   try {
     const { payload } = await jwtVerify(token, await segredo());
-    const u = await q1<Usuario>(`SELECT id, nome, email, papel, ativo FROM usuarios WHERE id = $1`, [payload.uid]);
+    const u = await q1<Usuario>(`SELECT id, nome, email, papel, ativo, foto FROM usuarios WHERE id = $1 AND NOT pendente`, [payload.uid]);
     return u && u.ativo ? u : null;
   } catch {
     return null;

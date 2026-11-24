@@ -31,3 +31,15 @@ DATABASE_URL=pglite:./.data npm run dev   # banco local em arquivo, sem instalar
 - `components/Documento.tsx` + `app/imprimir/doc.css` — layout do PDF
 - `components/Editor.tsx` — tela de edição do orçamento
 - `lib/db.ts` — tabelas do banco
+
+## Versões e aviso de atualização
+
+- O número da versão fica em `lib/versao.ts`. A cada atualização, adicione um item no topo de `NOVIDADES`
+  com a versão nova e o que mudou. Ele aparece em **Novidades** (clicando no número da versão).
+- Quem estiver com o sistema aberto recebe o aviso "Nova versão disponível" assim que a publicação terminar
+  (o sistema confere a cada minuto e quando a pessoa volta para a aba/app).
+
+## App no celular
+
+O sistema pode ser instalado na tela inicial (Android: botão "Instalar"; iPhone: Compartilhar → Adicionar à Tela de Início).
+Na tela do PDF, o botão "Enviar PDF" abre o compartilhamento do celular (WhatsApp, e-mail…).

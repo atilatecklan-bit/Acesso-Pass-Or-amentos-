@@ -84,4 +84,9 @@ export interface Usuario {
   email: string;
   papel: "admin" | "usuario";
   ativo: boolean;
+  pendente?: boolean;
+  foto?: string | null;
+  criado_em?: string;
 }
+
+export const ROTULO_PAPEL = { admin: "Administrador", usuario: "Colaborador" } as const;

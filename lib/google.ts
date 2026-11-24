@@ -27,7 +27,7 @@ export function urlAutorizacao(req: Request, state: string) {
 }
 
 /** Troca o código pelo id_token e devolve o e-mail verificado. */
-export async function emailDoGoogle(req: Request, code: string): Promise<{ email: string; nome: string }> {
+export async function emailDoGoogle(req: Request, code: string): Promise<{ email: string; nome: string; foto: string }> {
   const r = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -46,5 +46,5 @@ export async function emailDoGoogle(req: Request, code: string): Promise<{ email
     audience: process.env.GOOGLE_CLIENT_ID!,
   });
   if (!payload.email || payload.email_verified !== true) throw new Error("email");
-  return { email: String(payload.email).toLowerCase(), nome: String(payload.name ?? "") };
+  return { email: String(payload.email).toLowerCase(), nome: String(payload.name ?? ""), foto: String(payload.picture ?? "") };
 }

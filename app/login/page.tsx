@@ -5,6 +5,7 @@ import { googleAtivo } from "@/lib/google";
 
 const ERROS: Record<string, string> = {
   "nao-cadastrado": "Esse e-mail do Google não está cadastrado. Peça ao administrador para adicionar você em Usuários.",
+  aguardando: "Pedido de acesso enviado! Assim que o administrador aprovar, é só entrar de novo com o Google.",
   desativado: "Seu usuário está desativado. Fale com o administrador.",
   "google-falhou": "Não foi possível entrar com o Google. Tente de novo.",
   "google-cancelado": "Login com Google cancelado.",
@@ -23,7 +24,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
       <div className="caixa">
         <img src="/logo.png" alt="Acesso Pass" />
         <p className="tit">Gestão de orçamentos</p>
-        {erro && ERROS[erro] && <div className="aviso erro">{ERROS[erro]}</div>}
+        {erro && ERROS[erro] && <div className={`aviso ${erro === "aguardando" ? "ok" : "erro"}`}>{ERROS[erro]}</div>}
         {googleAtivo() && (
           <>
             <a className="btn google" href="/api/auth/google">

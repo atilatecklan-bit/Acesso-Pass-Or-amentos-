@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLICAS = ["/login", "/setup", "/api/auth/login", "/api/auth/setup", "/api/auth/google"];
+const PUBLICAS = ["/login", "/setup", "/api/auth/login", "/api/auth/setup", "/api/auth/google", "/api/versao", "/p", "/api/publico", "/privacidade", "/termos"];
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -16,5 +16,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|icon.png|apple-icon.png|favicon.ico|logo.png|logo-branco.png).*)"],
+  matcher: ["/((?!_next/static|_next/image|.*\\.[a-z0-9]+$).*)"],
 };
