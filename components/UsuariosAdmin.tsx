@@ -66,10 +66,11 @@ export default function UsuariosAdmin({ lista, eu }: { lista: Usuario[]; eu: num
 
       <div className="cartao" style={{ maxWidth: 760 }}>
         <h2>Adicionar pessoa</h2>
+        <p className="ajuda" style={{ marginTop: -6, marginBottom: 14 }}>Quem tiver e-mail Google (Gmail ou Workspace) pode entrar pelo botão “Entrar com Google” usando o mesmo e-mail cadastrado aqui.</p>
         <form className="grade g2" onSubmit={criar}>
           <label className="campo">Nome<input name="nome" required /></label>
           <label className="campo">E-mail<input name="email" type="email" required /></label>
-          <label className="campo">Senha inicial (mínimo 8)<input name="senha" type="text" minLength={8} required /></label>
+          <label className="campo">Senha inicial (opcional)<input name="senha" type="text" minLength={8} placeholder="Em branco = só entra com Google" /></label>
           <label className="campo">Perfil
             <select name="papel" defaultValue="usuario">
               <option value="usuario">Usuário — cria e edita orçamentos</option>

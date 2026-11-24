@@ -159,6 +159,9 @@ details.dobra > div { margin-top: 14px; }
 .entrada .caixa { width: 100%; max-width: 400px; background: #fff; border: 1px solid var(--linha); border-radius: 14px; padding: 32px; box-shadow: 0 10px 40px rgba(20,20,28,.06); }
 .entrada .caixa img { width: 180px; display: block; margin: 0 auto 8px; }
 .entrada .caixa .tit { text-align: center; color: var(--suave); margin: 0 0 22px; font-size: 13px; }
+.btn.google { width: 100%; padding: 11px 14px; font-size: 14px; gap: 10px; }
+.ou { display: flex; align-items: center; gap: 10px; color: var(--suave); font-size: 12px; margin: 16px 0; }
+.ou::before, .ou::after { content: ""; flex: 1; border-top: 1px solid var(--linha); }
 .entrada form { display: flex; flex-direction: column; gap: 14px; }
 
 @media (max-width: 900px) {
